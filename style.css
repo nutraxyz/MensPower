@@ -1048,3 +1048,57 @@ img {
     height: 260px;
   }
 }
+.product-section,
+.wellness-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 20px;
+  flex-wrap: wrap;
+}
+
+.product-image-container,
+.wellness-image {
+  flex: 1 1 280px;
+  text-align: center;
+}
+
+.product-image {
+  display: block;
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.wellness-image img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.product-content,
+.wellness-content {
+  flex: 1 1 280px;
+  max-width: 550px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .product-section,
+  .wellness-section {
+    flex-direction: column;
+    text-align: center;
+  }
+}
