@@ -2,11 +2,17 @@
 const menuToggle = document.getElementById("menuToggle");
 const navigation = document.getElementById("navigation");
 
+// Mobile navigation
 if (menuToggle && navigation) {
   menuToggle.addEventListener("click", () => {
     const isOpen = navigation.classList.toggle("open");
+
     menuToggle.setAttribute("aria-expanded", String(isOpen));
-    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    menuToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Close menu" : "Open menu"
+    );
+
     menuToggle.textContent = isOpen ? "×" : "☰";
   });
 
@@ -20,21 +26,29 @@ if (menuToggle && navigation) {
   });
 }
 
+// Automatic copyright year
 const yearElement = document.getElementById("year");
-if (yearElement) yearElement.textContent = new Date().getFullYear();
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
 
 // FAQ plus/minus indicators
 document.querySelectorAll(".faq-list details").forEach(item => {
   const icon = item.querySelector("summary span");
+
   const updateIcon = () => {
-    if (icon) icon.textContent = item.open ? "−" : "+";
+    if (icon) {
+      icon.textContent = item.open ? "−" : "+";
+    }
   };
+
   item.addEventListener("toggle", updateIcon);
   updateIcon();
 });
 
-// Genuine online-session counter.
-// Requires the /api/visitors backend shown below.
+// Live visitor counter
+// Requires the Vercel /api/visitors backend and Upstash configuration.
 const visitorCount = document.getElementById("visitorCount");
 
 async function updateVisitorCount() {
@@ -44,6 +58,10 @@ async function updateVisitorCount() {
     let sessionId = sessionStorage.getItem("mensPowerSession");
 
     if (!sessionId) {
+      if (!window.crypto || !crypto.randomUUID) {
+        throw new Error("Session ID is unavailable");
+      }
+
       sessionId = crypto.randomUUID();
       sessionStorage.setItem("mensPowerSession", sessionId);
     }
@@ -53,7 +71,9 @@ async function updateVisitorCount() {
       { cache: "no-store" }
     );
 
-    if (!response.ok) throw new Error("Visitor service unavailable");
+    if (!response.ok) {
+      throw new Error("Visitor service unavailable");
+    }
 
     const data = await response.json();
 
@@ -68,4 +88,4 @@ async function updateVisitorCount() {
 }
 
 updateVisitorCount();
-setInterval(updateVisitorCount, 60_000);
+setInterval(updateVisitorCount, 60000);
